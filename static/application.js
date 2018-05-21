@@ -25,25 +25,10 @@ haste_document.prototype.load = function(key, callback, lang) {
       _this.locked = true;
       _this.key = key;
       _this.data = res.data;
-      try {
-        var high;
-        if (lang === 'txt') {
-          high = { value: _this.htmlEscape(res.data) };
-        }
-        else if (lang) {
-          high = hljs.highlight(lang, res.data);
-        }
-        else {
-          high = hljs.highlightAuto(res.data);
-        }
-      } catch(err) {
-        // failed highlight, fall back on auto
-        high = hljs.highlightAuto(res.data);
-      }
       callback({
-        value: high.value,
+        value: res.data,
         key: key,
-        language: high.language || lang,
+        language: 'wurst',
         lineCount: res.data.split('\n').length
       });
     },
@@ -68,7 +53,7 @@ haste_document.prototype.save = function(data, callback) {
     success: function(res) {
       _this.locked = true;
       _this.key = res.key;
-      var high = hljs.highlightAuto(data);
+      var high = {value:data, language: 'wurst'};
       callback(null, {
         value: high.value,
         key: res.key,
@@ -165,13 +150,7 @@ haste.prototype.newDocument = function(hideHistory) {
 // due to the behavior of lookupTypeByExtension and lookupExtensionByType
 // Note: optimized for lookupTypeByExtension
 haste.extensionMap = {
-  rb: 'ruby', py: 'python', pl: 'perl', php: 'php', scala: 'scala', go: 'go',
-  xml: 'xml', html: 'xml', htm: 'xml', css: 'css', js: 'javascript', vbs: 'vbscript',
-  lua: 'lua', pas: 'delphi', java: 'java', cpp: 'cpp', cc: 'cpp', m: 'objectivec',
-  vala: 'vala', sql: 'sql', sm: 'smalltalk', lisp: 'lisp', ini: 'ini',
-  diff: 'diff', bash: 'bash', sh: 'bash', tex: 'tex', erl: 'erlang', hs: 'haskell',
-  md: 'markdown', txt: '', coffee: 'coffee', json: 'javascript',
-  swift: 'swift'
+  wurst: 'wurst'
 };
 
 // Look up the extension preferred for a type
@@ -188,7 +167,6 @@ haste.prototype.lookupExtensionByType = function(type) {
 haste.prototype.lookupTypeByExtension = function(ext) {
   return haste.extensionMap[ext] || ext;
 };
-
 // Add line numbers to the document
 // For the specified number of lines
 haste.prototype.addLineNumbers = function(lineCount) {
@@ -213,7 +191,7 @@ haste.prototype.loadDocument = function(key) {
   _this.doc = new haste_document();
   _this.doc.load(parts[0], function(ret) {
     if (ret) {
-      _this.$code.html(ret.value);
+      _this.$code.html(Prism.highlight(ret.value, Prism.languages.wurst));
       _this.setTitle(ret.key);
       _this.fullKey();
       _this.$textarea.val('').hide();
@@ -223,7 +201,7 @@ haste.prototype.loadDocument = function(key) {
     else {
       _this.newDocument();
     }
-  }, this.lookupTypeByExtension(parts[1]));
+  }, 'wurst');
 };
 
 // Duplicate the current document - only if locked
@@ -243,7 +221,7 @@ haste.prototype.lockDocument = function() {
       _this.showMessage(err.message, 'error');
     }
     else if (ret) {
-      _this.$code.html(ret.value);
+      _this.$code.html(Prism.highlight(ret.value, Prism.languages.wurst));
       _this.setTitle(ret.key);
       var file = '/' + ret.key;
       if (ret.language) {
