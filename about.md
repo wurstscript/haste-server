@@ -13,21 +13,15 @@ URL to someone and they'll see what you see.
 
 To make a new entry, click "New" (or type 'control + n')
 
-Pastes will stay for 30 days from their last view.  They may be removed earlier
-and without notice.
+Pastes will stay for about 6 months from their last view. They may be removed earlier
+and without notice. I'm planning to add permanent pastes at some point.
 
 ## Privacy
 
 While the contents of bin.wurstlang.org are not directly crawled by any search robot
-that obeys "robots.txt", there should be no great expectation of privacy.  Post
+that obeys "robots.txt", there should be no great expectation of privacy. Post
 things at your own risk. Not responsible for any loss of data or removed
 pastes.
-
-## Open Source
-
-Haste can easily be installed behind your network, and it's all open source!
-
-* [haste-server](https://github.com/seejohnrun/haste-server)
 
 ## Author
 

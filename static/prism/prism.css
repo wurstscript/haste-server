@@ -105,12 +105,11 @@ pre[class*="language-"] {
 }
 
 .token.operator {
-    color: #EDEDED;
+    color: #d7ba7d;
 }
 
 .token.entity {
     color: #FFFFB6;
-    /* text-decoration: underline; */
 }
 
 .token.url {
