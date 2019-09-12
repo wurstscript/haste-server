@@ -38,12 +38,11 @@ textarea {
 #box {
 	padding: 0px;
 	margin: 0px;
-	width: 100%;
 	border: 0px;
 	outline: none;
 	font-size: 13px;
 	padding-right: 360px;
-  overflow: inherit;
+  	overflow: inherit;
 }
 
 #box code {
